@@ -25,10 +25,15 @@ module.exports.views = {
   *                                                                          *
   ***************************************************************************/
 
-  extension:    'hadlebars',
-  getRenderFn:  function() {
-    var cons = require('consolidate');
-    return cons.handlebars;
+  layout: false,
+
+  partials: 'partials',
+
+  helpers: require('./helpers'),
+
+  engine: {
+    ext: 'handlebars',
+    fn: require("consolidate").handlebars
   },
 
   /***************************************************************************
@@ -39,10 +44,5 @@ module.exports.views = {
   * Note that layouts only work with the built-in EJS view engine!           *
   *                                                                          *
   ***************************************************************************/
-  engine:       {ext: 'handlebars'},
-  layout:       'layouts/layout',
-  partials:     'partials',
-
-  helpers:      require('./helpers')
 
 };
