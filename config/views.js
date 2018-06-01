@@ -26,7 +26,7 @@ module.exports.views = {
   ***************************************************************************/
 
   extension: 'handlebars',
-  layout: 'layouts/layout',
+  layout: false,
   getRenderFn: function(){
     var fs = require('fs');
     var cons = require('consolidate');
