@@ -25,16 +25,28 @@ module.exports.views = {
   *                                                                          *
   ***************************************************************************/
 
-  layout: false,
+  extension: 'handlebars',
+  layout: 'layouts/layout',
+  getRenderFn: function(){
+    var fs = require('fs');
+    var cons = require('consolidate');
+    var handlebars = require('handlebars');
 
-  partials: 'partials',
+    var partialsDir = __dirname + '/../views/partials';
+    var filenames = fs.readdirSync(partialsDir);
 
-  helpers: require('./helpers'),
+    filenames.forEach(function (filename) {
+      var matches = /^([^.]+).handlebars$/.exec(filename);
+      if (!matches) { return; }
+      var name = matches[1];
+      var template = fs.readFileSync(partialsDir + '/' + filename, 'utf8');
+      handlebars.registerPartial(name, template);
+    });
 
-  engine: {
-    ext: 'handlebars',
-    fn: require("consolidate").handlebars
-  },
+    cons.requires.handlebars = handlebars;
+    return cons.handlebars;
+  }
+
 
   /***************************************************************************
   *                                                                          *
